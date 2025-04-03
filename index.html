@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[WORKING TITLE] - A Multi-Format Narrative</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Styles remain the same as the previous version */
+        :root {
+            --bg-dark: #080808; --bg-light: #f5f5f7;
+            --text-primary-dark: #eaeaea; --text-primary-light: #1d1d1f;
+            --text-secondary-dark: #999999; --text-secondary-light: #6e6e73;
+            --border-dark: rgba(255, 255, 255, 0.15); --border-light: rgba(0, 0, 0, 0.1);
+            --accent-red: #ff1a1a; --accent-cyan: #00ffff;
+            --font-main: 'Inter', sans-serif; --font-mono: 'Roboto Mono', monospace;
+            --transition-speed: 0.6s; --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        body {
+            font-family: var(--font-main); background-color: var(--bg-dark); color: var(--text-primary-dark);
+            line-height: 1.7; font-weight: 400; padding: 0; overflow-x: hidden;
+            transition: background-color var(--transition-speed) var(--transition-timing), color var(--transition-speed) var(--transition-timing);
+        }
+        /* --- Theme Switching --- */
+        body.theme-light { background-color: var(--bg-light); color: var(--text-primary-light); }
+        body.theme-light .container { color: var(--text-primary-light); }
+        body.theme-light h2, body.theme-light h3, body.theme-light p strong, body.theme-light p .highlight { color: var(--text-primary-light); }
+        body.theme-light p, body.theme-light ul.list li { color: var(--text-primary-light); }
+        body.theme-light blockquote { color: var(--text-secondary-light); border-color: var(--accent-red); background: rgba(0,0,0,0.01); }
+        body.theme-light .text-secondary { color: var(--text-secondary-light); }
+        body.theme-light header { background: rgba(245, 245, 247, 0.85); border-bottom-color: var(--border-light); }
+        body.theme-light header h1 { color: var(--text-primary-light); }
+        body.theme-light footer { border-top-color: var(--border-light); color: var(--text-secondary-light); }
+        body.theme-light ul.list li::before { color: var(--text-secondary-light); } /* Note: List marker color will change */
+        body.theme-light .launch-item { background-color: rgba(0, 0, 0, 0.04); border-color: rgba(0, 0, 0, 0.08); }
+        body.theme-light .launch-item:hover { background-color: rgba(0, 0, 0, 0.06); border-color: rgba(0, 0, 0, 0.12); }
+        body.theme-light .launch-item strong { color: var(--text-primary-light); }
+        body.theme-light .section-textured {
+             background-image: linear-gradient(rgba(245, 245, 247, 0.9), rgba(245, 245, 247, 0.9)), url('stylisez-backround-behind-typography.jpg');
+             filter: grayscale(50%);
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 40px; color: var(--text-primary-dark); transition: color var(--transition-speed) var(--transition-timing); }
+        .content-block { padding: 120px 0; }
+        .content-block-tight { padding: 80px 0; }
+        /* --- Animations --- */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animated-item { opacity: 0; }
+        /* --- Header --- */
+        header { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; z-index: 1000; background: rgba(8, 8, 8, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-dark); transition: background-color var(--transition-speed) var(--transition-timing), border-color var(--transition-speed) var(--transition-timing); }
+        header h1 { font-size: 1.25rem; font-weight: 500; color: var(--text-primary-dark); letter-spacing: 0.1px; text-transform: none; transition: color var(--transition-speed) var(--transition-timing); }
+        /* --- Hero Section --- */
+        .hero-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 40px; background-size: cover; background-position: center center; position: relative; color: #fff; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.55); z-index: 1; transition: background-color var(--transition-speed) var(--transition-timing); }
+        .hero-content { position: relative; z-index: 2; }
+        .hero-section h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -1px; margin-bottom: 20px; color: #fff; text-transform: uppercase; }
+        .hero-section .intro-tagline { font-size: 1.5rem; color: rgba(255, 255, 255, 0.9); font-weight: 400; max-width: 750px; margin: 0 auto; line-height: 1.6; font-family: var(--font-mono); }
+        /* --- General Content Styling --- */
+        h2 { font-size: 2.8rem; font-weight: 600; color: var(--text-primary-dark); margin-bottom: 35px; line-height: 1.3; letter-spacing: -0.7px; text-align: center; transition: color var(--transition-speed) var(--transition-timing); }
+        h3 { font-size: 1.6rem; font-weight: 500; color: var(--text-primary-dark); margin-bottom: 40px; letter-spacing: -0.1px; text-align: center; font-family: var(--font-mono); text-transform: uppercase; transition: color var(--transition-speed) var(--transition-timing); }
+        p { font-size: 1.1rem; color: var(--text-primary-dark); margin-bottom: 25px; line-height: 1.8; font-weight: 300; max-width: 680px; margin-left: auto; margin-right: auto; transition: color var(--transition-speed) var(--transition-timing); }
+        p.left-align { margin-left: 0; text-align: left; }
+        p strong, p .highlight { font-weight: 500; color: inherit; }
+        p .subtle { color: var(--text-secondary-dark); font-size: 1rem; font-family: var(--font-mono); text-align: center; display: block; margin-top: 15px; margin-bottom: 15px; }
+        .text-secondary { color: var(--text-secondary-dark); transition: color var(--transition-speed) var(--transition-timing); }
+        ul.list { list-style: none; padding-left: 0; margin: 35px auto; max-width: 600px; }
+        ul.list li { margin-bottom: 18px; font-size: 1.1rem; color: var(--text-primary-dark); padding-left: 30px; position: relative; font-weight: 300; line-height: 1.7; transition: color var(--transition-speed) var(--transition-timing); }
+        ul.list li::before { content: '>'; position: absolute; left: 3px; top: 1px; font-size: 1em; line-height: inherit; font-family: var(--font-mono); color: var(--accent-cyan); transition: color var(--transition-speed) var(--transition-timing); }
+        ul.list.act-list { max-width: 750px; }
+        ul.list.act-list li { padding-left: 0; margin-bottom: 25px; }
+        ul.list.act-list li::before { display: none; }
+        ul.list.act-list li strong { display: block; font-weight: 500; font-size: 1.2rem; font-family: var(--font-mono); margin-bottom: 8px; color: var(--accent-cyan); text-transform: uppercase; }
+        blockquote { border-left: 3px solid var(--accent-red); padding: 30px 35px; margin: 50px auto; font-style: normal; color: var(--text-secondary-dark); background-color: rgba(255,255,255, 0.03); font-size: 1.3rem; line-height: 1.7; font-weight: 400; font-family: var(--font-mono); max-width: 700px; transition: color var(--transition-speed) var(--transition-timing), border-color var(--transition-speed) var(--transition-timing), background-color var(--transition-speed) var(--transition-timing); }
+        blockquote span { display: block; margin-bottom: 10px; }
+        /* --- Image Sections --- */
+        .image-section { width: 100%; margin: 0; padding: 60px 0; text-align: center; line-height: 0; background-color: inherit; overflow: hidden; transition: background-color var(--transition-speed) var(--transition-timing); }
+        .image-section.no-vpad { padding-top: 0; padding-bottom: 0; }
+        .image-section img, .image-section video { max-width: 100%; height: auto; display: block; margin: 0 auto; object-fit: contain; }
+        .full-bleed-image { width: 100vw; max-width: none; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 0; }
+        .dark-image { background-color: var(--bg-dark); } .light-image { background-color: var(--bg-light); }
+        .media-caption { display: none; } /* REMOVED ALL CAPTIONS */
+        /* --- Specific Section Styles --- */
+        .section-textured { background-image: linear-gradient(rgba(8, 8, 8, 0.92), rgba(8, 8, 8, 0.92)), url('stylisez-backround-behind-typography.jpg'); background-size: cover; background-position: center center; background-attachment: fixed; }
+        body.theme-light .section-textured { background-image: linear-gradient(rgba(245, 245, 247, 0.9), rgba(245, 245, 247, 0.9)), url('stylisez-backround-behind-typography.jpg'); filter: grayscale(50%); }
+        /* --- GIF Grid Removed --- */
+        /* --- Launch Items --- */
+        .launch-item { padding: 25px 30px; margin-bottom: 20px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-dark); border-radius: 10px; transition: background-color 0.3s ease, border-color 0.3s ease; max-width: 720px; margin-left: auto; margin-right: auto; }
+        .launch-item:hover { background-color: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+        .launch-item strong { display: block; margin-bottom: 8px; color: var(--text-primary-dark); font-weight: 500; font-size: 1.1rem; font-family: var(--font-mono); text-transform: uppercase; transition: color var(--transition-speed) var(--transition-timing); }
+        .launch-item p { font-size: 1rem; margin-bottom: 0; font-weight: 300; max-width: none; margin-left: 0; margin-right: 0; }
+        /* --- Final Statement --- */
+        .final-statement { font-size: 1.8rem; font-weight: 400; color: var(--text-primary-dark); text-align: center; margin: 80px auto 0; line-height: 1.7; letter-spacing: -0.2px; max-width: 750px; font-family: var(--font-mono); transition: color var(--transition-speed) var(--transition-timing); }
+        .final-statement span { display: block; margin-bottom: 15px; }
+        .final-statement .highlight-red { color: var(--accent-red); font-weight: 500; }
+        .final-statement .highlight-cyan { color: var(--accent-cyan); font-weight: 500; }
+        /* --- Footer --- */
+        footer { padding: 100px 40px; text-align: center; border-top: 1px solid var(--border-dark); color: var(--text-secondary-dark); font-size: 0.9rem; margin-top: 100px; transition: border-color var(--transition-speed) var(--transition-timing), color var(--transition-speed) var(--transition-timing); }
+        footer p { margin-bottom: 0; font-weight: 400; max-width: none; font-size: 0.9rem; color: var(--text-secondary-dark); transition: color var(--transition-speed) var(--transition-timing); }
+        /* --- Audio Toggle Button --- */
+        #audioToggle { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #ccc; padding: 8px 12px; cursor: pointer; border-radius: 5px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        #audioToggle:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); color: #fff; }
+        body.theme-light #audioToggle { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.15); color: var(--text-secondary-light); }
+        body.theme-light #audioToggle:hover { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.3); color: var(--text-primary-light); }
+        /* --- Media Queries --- */
+        @media (max-width: 768px) { .hero-section h2 { font-size: 2.2rem; } .hero-section .intro-tagline { font-size: 1.3rem; } h2 { font-size: 2.4rem; } h3 { font-size: 1.4rem; } p { font-size: 1.05rem; } blockquote { font-size: 1.2rem; } .final-statement { font-size: 1.5rem; } #audioToggle { font-size: 12px; padding: 6px 10px; bottom: 15px; right: 15px; } }
+        @media (max-width: 480px) { .hero-section { min-height: 90vh; } .hero-section h2 { font-size: 1.8rem; } .hero-section .intro-tagline { font-size: 1.1rem; } h2 { font-size: 2rem; } h3 { font-size: 1.3rem; } p { font-size: 1rem; } blockquote { font-size: 1.1rem; } .final-statement { font-size: 1.3rem; } }
+    </style>
+</head>
+<body class="theme-dark">
+
+    <audio id="backgroundAudio" loop muted autoplay>
+        <source src="backround-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <header>
+        <h1>[WORKING TITLE]</h1>
+    </header>
+
+    <main>
+        <section class="hero-section animated-item" style="background-image: url('batman-conceptart1.jpg');">
+            <div class="hero-content">
+                <h2>THE NARRATIVE ISN'T LINEAR</h2>
+                <p class="intro-tagline">A three-act experience across film, web, and audio.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <section id="structure" class="content-block animated-item">
+                <h3>PROJECT STRUCTURE</h3>
+                <p>This project unfolds in three distinct acts, utilizing different formats to create a layered narrative experience. The viewer transitions from passive observation to active participation.</p>
+                <ul class="list act-list">
+                     <li><strong>ACT I: THE FILM (Theatrical/Initial Release)</strong> A complete cinematic story designed to stand alone, focusing on themes of observation and isolation. It concludes without traditional credits, presenting only a QR code symbol.</li>
+                     <li><strong>ACT II: THE INTERACTIVE MYSTERY (Web Platform)</strong> Accessed via the QR code after the film's online release. This act requires viewer interaction with the film's timeline (scrubbing, pausing) to uncover clues and solve puzzles within a dedicated web interface. Features minimalist design and integrated binaural audio sections.</li>
+                     <li><strong>ACT III: THE RESOLUTION (Unlocked Digital Content)</strong> The conclusion unlocked by completing Act II. Delivered as a short film (~15-20min) and/or audio experience, providing a final narrative layer that recontextualizes the entire story and the viewer's role within it.</li>
+                 </ul>
+             </section>
+         </div>
+
+        <div class="container">
+            <section id="act1-visuals" class="content-block-tight animated-item">
+                 <h3>ACT I: ESTABLISHING THE WORLD</h3>
+                 <p>The initial film sets the atmospheric tone, drawing inspiration from visually grounded psychological thrillers. The narrative leaves intentional gaps, culminating in the QR code prompt.</p>
+            </section>
+         </div>
+         <section class="image-section animated-item dark-image no-vpad">
+             <img src="people-falling-stylised.jpg" alt="Stylised image depicting figures falling or suspended.">
+             {/* Caption Removed */}
+         </section>
+         <section class="image-section animated-item dark-image">
+            <img src="movie-qrcode-ending.jpg" alt="Dark screen with a faintly glowing cyan QR code.">
+             {/* Caption Removed */}
+        </section>
+
+
+        <div class="section-textured">
+            <div class="container">
+                <section id="transition" class="content-block animated-item">
+                    <h3>TRANSITION: FROM PASSIVE TO ACTIVE</h3>
+                    <p>The QR code links to a web platform, initially locked. Access requires the film's online availability, enabling timeline manipulation (pause, rewind, scrub). This interaction is the core mechanic for uncovering hidden information.</p>
+                    <blockquote>
+                        <span>This isn’t the real ending.</span>
+                        <span>Truth cannot be projected. Truth must be found.</span>
+                        <span>Rewind to remember.</span>
+                    </blockquote>
+                    <p>Viewer control over time becomes the key to unlocking the narrative's subsequent layers.</p>
+                 </section>
+            </div>
+        </div>
+        <section class="image-section animated-item light-image">
+            <img src="poster1.jpg" alt="White background with a tall vertical bar of QR code patterns.">
+             {/* Caption Removed */}
+        </section>
+
+
+        <div class="container">
+            <section id="act2" class="content-block animated-item">
+                <h3>ACT II: INTERACTION & DISCOVERY</h3>
+                <p>The web platform features a retro/glitch aesthetic. Progress relies on solving puzzles tied directly to the film's content viewed online. Viewer interaction with the film's timeline (rewinding, pausing, scrubbing) directly impacts discovery. Seemingly stable scenes reveal inconsistencies or hidden data when manipulated non-linearly.</p> {/* Integrated mechanics explanation */}
+                <p>Key interaction methods include:</p>
+                <ul class="list">
+                     <li>Finding hidden visuals/audio revealed only by scrubbing/pausing at specific moments.</li>
+                     <li>Entering timecodes or keywords discovered in the film into the web interface.</li>
+                     <li>Solving rhythm-based or visual puzzles within the interface.</li>
+                     <li>Navigating minimalist binaural audio sequences (<span class="text-secondary">Headphones Required</span>).</li>
+                 </ul>
+                 <p>This act moves beyond passive viewing, requiring analysis and non-linear engagement with the film's data stream.</p>
+             </section>
+         </div>
+         <section class="image-section animated-item dark-image">
+             <img src="arg-website-idea.jpg" alt="Concept art for the ARG website interface, retro terminal look.">
+              {/* Caption Removed */}
+         </section>
+          <section class="image-section full-bleed-image animated-item dark-image no-vpad">
+             <img src="argwebsite-example.jpg" alt="Retro computer terminal displaying green code and QR code.">
+              {/* Caption Removed */}
+         </section>
+
+
+        <div class="container">
+             <section id="act3" class="content-block animated-item">
+                 <h3>ACT III: RECONTEXTUALIZATION</h3>
+                 <p>Completion of Act II unlocks the final narrative piece: a concise short film or audio experience. This content provides resolution while fundamentally reframing the events of Act I and the nature of the viewer's interaction in Act II.</p>
+                 <p>The structure implies that the narrative is only truly complete once the viewer has actively engaged and uncovered these hidden layers, making their participation integral to the story's final meaning.</p>
+             </section>
+         </div>
+          <section class="image-section animated-item dark-image">
+             <img src="stylised-batman-closeup.jpg" alt="Stylised close-up concept art, dark mood.">
+             {/* Caption Removed */}
+         </section>
+
+
+        <div class="section-textured" style="background-image: linear-gradient(rgba(8, 8, 8, 0.92), rgba(8, 8, 8, 0.92)), url('backround-art1.jpg');">
+             <div class="container">
+                <section id="architecture" class="content-block animated-item">
+                   <h3>NARRATIVE ARCHITECTURE & AESTHETICS</h3>
+                   <p>This project utilizes a <strong class="highlight-cyan">Reflective Narrative Structure</strong> where the viewer's interaction is a required component. The aesthetic blends grounded, dark cinematography with glitch elements and minimalist digital interfaces. Sound design, particularly <strong class="highlight">binaural audio</strong>, is crucial for immersion and clue delivery.</p>
+                   <img src="concept-art1.jpg" alt="Concept art piece establishing mood and aesthetic." style="max-width: 70%; height: auto; display: block; margin: 40px auto 0;">
+                    {/* Caption Removed */}
+               </section>
+           </div>
+        </div>
+
+
+        <div class="container">
+            <section id="launch" class="content-block animated-item">
+                 <h3>COMMUNITY & LAUNCH STRATEGY</h3>
+                 <p>The multi-layered mystery is designed to encourage collaborative solving within online communities (Discord, Reddit, etc.). The launch plan includes unconventional elements to generate discussion:</p>
+                 <div class="launch-item"><strong>€6 Theatrical Ticket Price:</strong> Low barrier entry, generates buzz.</div>
+                 <div class="launch-item"><strong>QR Code as Central Motif:</strong> Viral visual hook across all materials.</div>
+                 <div class="launch-item"><strong>Kickstarter Campaign:</strong> Funds Act II/III development, offers early access/clues.</div>
+                 <div class="launch-item"><strong>Staggered Online Release:</strong> Triggers the interactive phase (Act II).</div>
+
+                 <video controls muted playsinline poster="concept-art.jpg" style="max-width: 100%; height: auto; display: block; margin: 40px auto 0; border: 1px solid var(--border-dark);">
+                    <source src="edit-idea-for-marketing.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                 </video>
+                  {/* Caption Removed */}
+             </section>
+         </div>
+
+
+        <div class="container">
+             <section id="conclusion" class="content-block animated-item">
+                 <p class="final-statement">
+                     <span>This project integrates narrative across film, web, and audio, requiring viewer interaction to unlock its complete form.</span>
+                     <span>It's an experiment in <span class="highlight-cyan">structurally embedded participation</span>.</span>
+                     <span class="highlight-red">Engage with the layers to reveal the full picture.</span>
+                 </p>
+             </section>
+         </div>
+
+    </main>
+
+    <footer>
+        <p>© [WORKING TITLE] // Architecture Status: Active. Awaiting Observer Input.</p>
+    </footer>
+
+    <button id="audioToggle">Unmute</button>
+
+<script>
+    // JavaScript remains the same
+    document.addEventListener('DOMContentLoaded', function() {
+        const body = document.body;
+        const themeSections = document.querySelectorAll('.light-image, .dark-image');
+        const themeObserverOptions = { root: null, rootMargin: '-45% 0px -45% 0px', threshold: 0 };
+        const themeObserverCallback = (entries) => { let isAnyLightIntersecting = false; themeSections.forEach(section => { if (section.classList.contains('light-image')) { const rect = section.getBoundingClientRect(); const viewportHeight = window.innerHeight; const sectionCenterY = rect.top + rect.height / 2; if (sectionCenterY > viewportHeight * 0.25 && sectionCenterY < viewportHeight * 0.75) { isAnyLightIntersecting = true; } } }); if (isAnyLightIntersecting) { body.classList.remove('theme-dark'); body.classList.add('theme-light'); } else { body.classList.remove('theme-light'); body.classList.add('theme-dark'); } };
+        const themeObserver = new IntersectionObserver(themeObserverCallback, themeObserverOptions);
+        themeSections.forEach(section => themeObserver.observe(section));
+        const animatedItems = document.querySelectorAll('.animated-item');
+        const animationObserverOptions = { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.05 };
+        const animationObserverCallback = (entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.animation = `fadeInUp 0.8s ${getComputedStyle(entry.target).transitionTimingFunction || 'cubic-bezier(0.4, 0, 0.2, 1)'} forwards`; observer.unobserve(entry.target); } }); };
+        const animationObserver = new IntersectionObserver(animationObserverCallback, animationObserverOptions);
+        animatedItems.forEach(item => animationObserver.observe(item));
+        const audio = document.getElementById('backgroundAudio'); const audioToggleButton = document.getElementById('audioToggle');
+        if (audioToggleButton && audio) { const updateButtonText = () => { audioToggleButton.textContent = audio.muted ? 'Unmute' : 'Mute'; }; audio.play().then(() => { updateButtonText(); }).catch(e => { updateButtonText(); }); audio.addEventListener('canplay', updateButtonText, { once: true }); const tryUnmutingAndPlaying = () => { audio.muted = false; audio.play().then(() => { updateButtonText(); }).catch(error => { audio.muted = true; updateButtonText(); }); }; audioToggleButton.addEventListener('click', () => { if (audio.muted) { tryUnmutingAndPlaying(); } else { audio.muted = true; updateButtonText(); } }); } else { if(audioToggleButton) audioToggleButton.style.display = 'none'; }
+        console.log("Reflective Narrative Structure // Observer Protocol Engaged.");
+    });
+</script>
+
+</body>
+</html>
